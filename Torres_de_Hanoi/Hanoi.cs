@@ -12,7 +12,7 @@ namespace Torres_de_Hanoi
 
         public void mover_disco(Pila a, Pila b)
         {
-            if (a.Top == b.Top) //estan vacios ambos
+            if (a.Top == b.Top) // Estan vacios ambos
             {
                 return;
             }
@@ -31,10 +31,58 @@ namespace Torres_de_Hanoi
             movimientos++;
         }
 
-        public int iterativo(int n, Pila ini, Pila fin, Pila aux)
+        public int iterativo(uint n, Pila ini, Pila fin, Pila aux)
         {
-            return 0;
+            if (n == 0) { return movimientos; }   // Edge case
+
+            else if (!esPar(n))
+            {
+                while (!estaSolucionado(fin, n))
+                {
+                    mover_disco(ini, fin);
+                    if (estaSolucionado(fin, n)) { break; }
+                    mover_disco(ini, aux);
+                    mover_disco(aux, fin);
+                    if (estaSolucionado(fin, n)) { break; }
+                }
+            }
+            else
+            {
+                while (!estaSolucionado(fin, n))
+                {
+                    mover_disco(ini, aux);
+                    mover_disco(ini, fin);
+                    if (estaSolucionado(fin, n)) { break; }
+                    mover_disco(aux, fin);
+                    if (estaSolucionado(fin, n)) { break; }
+                }
+            }
+
+            return movimientos;
         }
 
+        public int recursivo(uint n, Pila ini, Pila fin, Pila aux)
+        {
+            if (n == 0) { return movimientos; }       // Edge case
+            if (n == 1) { mover_disco(ini, fin); }  // Base case
+            else
+            {
+                recursivo(n - 1, ini, aux, fin);
+                mover_disco(ini, fin);
+                recursivo(n - 1, aux, fin, ini);
+            }
+
+            return movimientos;
+        }
+
+        public bool estaSolucionado(Pila p, uint n)
+        {
+            return (p.Size == n);
+        }
+
+        public bool esPar(uint val)
+        {
+            return (val % 2 == 0);
+        }
     }
 }
