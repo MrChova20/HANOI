@@ -8,7 +8,7 @@ namespace Torres_de_Hanoi
 {
     class Hanoi
     {
-        private int movimientos = 0;
+        private uint movimientos = 0;
 
         public void mover_disco(Pila a, Pila b)
         {
@@ -31,9 +31,9 @@ namespace Torres_de_Hanoi
             movimientos++;
         }
 
-        public int iterativo(uint n, Pila ini, Pila fin, Pila aux)
+        public uint iterativo(uint n, Pila ini, Pila fin, Pila aux)
         {
-            if (n == 0) { return movimientos; }   // Edge case
+            if (n == 0) { return movimientos; }   // caso genral
 
             else if (!esPar(n))
             {
@@ -41,6 +41,7 @@ namespace Torres_de_Hanoi
                 {
                     mover_disco(ini, fin);
                     if (estaSolucionado(fin, n)) { break; }
+                    //The break statement can also be used to jump out of a loop.
                     mover_disco(ini, aux);
                     mover_disco(aux, fin);
                     if (estaSolucionado(fin, n)) { break; }
@@ -61,10 +62,12 @@ namespace Torres_de_Hanoi
             return movimientos;
         }
 
-        public int recursivo(uint n, Pila ini, Pila fin, Pila aux)
+       
+
+        public uint recursivo(uint n, Pila ini, Pila fin, Pila aux)
         {
-            if (n == 0) { return movimientos; }       // Edge case
-            if (n == 1) { mover_disco(ini, fin); }  // Base case
+            if (n == 0) { return movimientos; }       // caso general
+            if (n == 1) { mover_disco(ini, fin); }  // caso base
             else
             {
                 recursivo(n - 1, ini, aux, fin);
